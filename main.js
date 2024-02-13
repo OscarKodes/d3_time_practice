@@ -18,43 +18,46 @@ d3.csv("practice_data.csv", (d) => {
 }).then((data) => {
   console.log(data);
 
-  //   // MANIPULATING DATA ==========================
+  // SCALES ====================================
 
-  //   // Only Tinder, Bumble, and OkCupid
-  //   data = data.filter(d => ["Tinder", "Bumble", "okcupid"].includes(d.app));
+  const xScale = d3
+    .scaleTime()
+    .domain(d3.extent(data, (d) => d.year))
+    .range([margin.left, width - margin.right]);
 
-  //   // SCALES ====================================
-  //   const xScale = d3.scaleTime()
-  //     .domain(d3.extent(data, d => d.week))
-  //     .range([margin.left, width - margin.right])
-
-  //   const yScale = d3.scaleLinear()
-  //     .domain(d3.extent(data, d => d.searches))
-  //     .range([height - margin.bottom, margin.top])
+  const yScale = d3
+    .scaleTime()
+    .domain(d3.extent(data, (d) => d.population))
+    .range([height - margin.bottom, margin.top]);
 
   //   const colorArr = ["#ff6a33", "yellow", "purple"];
   //   const colorScale = d3.scaleOrdinal().range(colorArr);
 
-  //   // HTML ELEMENTS #############################
+  // HTML ELEMENTS #############################
 
-  //   // Create SVG
-  //   const svg = d3.select("#container")
-  //     .append("svg")
-  //     .attr("width", width)
-  //     .attr("height", height)
+  // Create SVG
 
-  //    // Axis Ticks
-  //   const xAxis = d3.axisBottom(xScale)
+  const svg = d3
+    .select("#container")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .style("background-color", "lavender");
 
-  //   svg.append("g")
-  //     .attr("transform", `translate(${0}, ${height - margin.bottom})`)
-  //     .call(xAxis)
+  // Axis Ticks
+  const xAxis = d3.axisBottom(xScale);
 
-  //   const yAxis = d3.axisLeft(yScale)
+  svg
+    .append("g")
+    .attr("transform", `translate(${0}, ${height - margin.bottom})`)
+    .call(xAxis);
 
-  //   svg.append("g")
-  //     .attr("transform", `translate(${margin.left - 1}, ${0})`)
-  //     .call(yAxis)
+  const yAxis = d3.axisLeft(yScale);
+
+  svg
+    .append("g")
+    .attr("transform", `translate(${margin.left - 1}, ${0})`)
+    .call(yAxis);
 
   //   // Axis Labels
   //   svg.append("text")
