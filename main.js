@@ -12,7 +12,7 @@ const width = window.innerWidth * 0.8,
 d3.csv("practice_data.csv", (d) => {
   return {
     country: d.Entity,
-    year: +d.Year,
+    year: new Date(+d.Year, 0, 1),
     population: +d.Population,
   };
 }).then((data) => {
@@ -26,7 +26,7 @@ d3.csv("practice_data.csv", (d) => {
     .range([margin.left, width - margin.right]);
 
   const yScale = d3
-    .scaleTime()
+    .scaleLinear()
     .domain(d3.extent(data, (d) => d.population))
     .range([height - margin.bottom, margin.top]);
 
@@ -77,19 +77,31 @@ d3.csv("practice_data.csv", (d) => {
   //     .attr("transform", "rotate(-90)")
   //     .text("Search Interest Relative to Highest Point");
 
-  //   // Area Generator
-  //   const areaGen = d3.area()
-  //     .x(d => xScale(d.week))
-  //     .y0(height - margin.bottom)
-  //     .y1(d => yScale(d.searches))
+  // Area Generator
+  const areaGen = d3
+    .area()
+    .x((d) => xScale(d.year))
+    .y0(height - margin.bottom)
+    .y1((d) => yScale(d.population));
 
-  //   // Group data by apps
-  //   appData = d3.groups(data, d => d.app)
-  //   .map(d => {
-  //     return {app:d[0], searches:d[1]};
-  //   });
+  // Group data by apps ----
+  data = d3
+    .groups(data, (d) => d.country)
+    .map((d) => {
+      return { country: d[0], population: d[1] };
+    });
 
-  //   // Draw Graph ----------------------
+  // // Draw Graph ----------------------
+  svg
+    .selectAll(".area")
+    .data(data)
+    .join("path")
+    .attr("class", "area")
+    .attr("stroke", "black")
+    .attr("fill", d3.scaleOrdinal(d3.schemeAccent))
+    .attr("opacity", 0.5)
+    .attr("d", (d) => areaGen(d.population));
+
   //   svg.selectAll(".area")
   //     .data(appData)
   //     .join(
