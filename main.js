@@ -77,12 +77,11 @@ d3.csv("practice_data.csv", (d) => {
   //     .attr("transform", "rotate(-90)")
   //     .text("Search Interest Relative to Highest Point");
 
-  // Area Generator
-  const areaGen = d3
-    .area()
+  // Line Generator
+  const lineGen = d3
+    .line()
     .x((d) => xScale(d.year))
-    .y0(height - margin.bottom)
-    .y1((d) => yScale(d.population));
+    .y((d) => yScale(d.population));
 
   // Group data by apps ----
   data = d3
@@ -91,16 +90,25 @@ d3.csv("practice_data.csv", (d) => {
       return { country: d[0], population: d[1] };
     });
 
+  // Filter for only top 5 countries
+
+  const topFive = data
+    .sort(
+      (a, b) =>
+        b.population.slice(-1)[0].population -
+        a.population.slice(-1)[0].population
+    )
+    .slice(0, 5);
+
   // // Draw Graph ----------------------
   svg
-    .selectAll(".area")
-    .data(data)
+    .selectAll(".line")
+    .data(topFive)
     .join("path")
-    .attr("class", "area")
-    .attr("stroke", "black")
-    .attr("fill", d3.scaleOrdinal(d3.schemeAccent))
-    .attr("opacity", 0.5)
-    .attr("d", (d) => areaGen(d.population));
+    .attr("class", "line")
+    .attr("stroke", d3.scaleOrdinal(d3.schemeAccent))
+    .attr("fill", "none")
+    .attr("d", (d) => lineGen(d.population));
 
   //   svg.selectAll(".area")
   //     .data(appData)
