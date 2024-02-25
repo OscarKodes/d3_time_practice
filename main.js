@@ -59,14 +59,26 @@ d3.csv("practice_data.csv", (d) => {
     .attr("transform", `translate(${margin.left - 1}, ${0})`)
     .call(yAxis);
 
-  //   // Axis Labels
-  //   svg.append("text")
-  //     .attr("text-anchor", "end")
-  //     .attr("x", width / 2)
-  //     .attr("y", height - margin.top)
-  //     .style("font-weight", "bold")
-  //     .style("font-size", "1.2rem")
-  //     .text("Time (Years)");
+  // Axis Labels
+
+  svg
+    .append("text")
+    .attr("text-anchor", "end")
+    .attr("x", width / 2)
+    .attr("y", height - margin.top)
+    .style("font-weight", "bold")
+    .style("font-size", "1.2rem")
+    .text("Time (Years)");
+
+  svg
+    .append("text")
+    .attr("text-anchor", "end")
+    .attr("x", -height / 2 + margin.left * 2)
+    .attr("y", 30)
+    .style("font-weight", "bold")
+    .style("font-size", "1.2rem")
+    .attr("transform", "rotate(-90)")
+    .text("Population (Millions)");
 
   //   svg.append("text")
   //     .attr("text-anchor", "end")
