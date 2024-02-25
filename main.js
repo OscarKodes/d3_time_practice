@@ -107,6 +107,7 @@ d3.csv("practice_data.csv", (d) => {
     .join("path")
     .attr("class", "line")
     .attr("stroke", d3.scaleOrdinal(d3.schemeAccent))
+    .attr("stroke-width", "3px")
     .attr("fill", "none")
     .attr("d", (d) => lineGen(d.population));
 
