@@ -13,7 +13,7 @@ d3.csv("practice_data.csv", (d) => {
   return {
     country: d.Entity,
     year: new Date(+d.Year, 0, 1),
-    population: +d.Population,
+    population: +d.Population / 1000000,
   };
 }).then((data) => {
   console.log(data);
@@ -29,9 +29,6 @@ d3.csv("practice_data.csv", (d) => {
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.population))
     .range([height - margin.bottom, margin.top]);
-
-  //   const colorArr = ["#ff6a33", "yellow", "purple"];
-  //   const colorScale = d3.scaleOrdinal().range(colorArr);
 
   // HTML ELEMENTS #############################
 
@@ -80,15 +77,6 @@ d3.csv("practice_data.csv", (d) => {
     .attr("transform", "rotate(-90)")
     .text("Population (Millions)");
 
-  //   svg.append("text")
-  //     .attr("text-anchor", "end")
-  //     .attr("x", -height / 2 + margin.left * 2)
-  //     .attr("y", 30)
-  //     .style("font-weight", "bold")
-  //     .style("font-size", "1.2rem")
-  //     .attr("transform", "rotate(-90)")
-  //     .text("Search Interest Relative to Highest Point");
-
   // Line Generator
   const lineGen = d3
     .line()
@@ -122,23 +110,6 @@ d3.csv("practice_data.csv", (d) => {
     .attr("stroke-width", "3px")
     .attr("fill", "none")
     .attr("d", (d) => lineGen(d.population));
-
-  //   svg.selectAll(".area")
-  //     .data(appData)
-  //     .join(
-  //       enter => enter
-  //       .append("path")
-  //         .attr("class", "area")
-  //         .attr("opacity", 0)
-  //         .attr("stroke", "black")
-  //         .attr("fill", d => colorScale(d.app))
-  //       .call(enter => enter
-  //         .transition()
-  //           .duration(2000)
-  //           .delay((_, i) => i * 500)
-  //           .attr("d", d => areaGen(d.searches))
-  //           .attr("opacity", 0.85))
-  //     )
 
   //   // Legend -------------------------
 
