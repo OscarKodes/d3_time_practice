@@ -111,36 +111,42 @@ d3.csv("practice_data.csv", (d) => {
     .attr("fill", "none")
     .attr("d", (d) => lineGen(d.population));
 
-  //   // Legend -------------------------
+  // Legend -------------------------
 
-  //   // Title for search Legend
-  //   svg.append("text")
-  //     .text("Searched Word:")
-  //     .attr("x", width - margin.right * .8)
-  //     .attr("y", 210)
-  //     .style("font-size", "1rem")
-  //     .style("font-weight", "bold")
+  // Title for search Legend
 
-  //   // Color boxes for search Legend
-  //   svg.selectAll(".legend-box")
-  //     .data(colorArr)
-  //     .join("rect")
-  //     .attr("class", "legend-box")
-  //     .attr("x", width - margin.right * .6 - 10)
-  //     .attr("y", (_, i) => 230 + i * 20)
-  //     .attr("width", 10)
-  //     .attr("height", 10)
-  //     .style("fill", d => d)
-  //     .attr("stroke", "black")
+  svg
+    .append("text")
+    .text("Country:")
+    .attr("x", width - margin.right * 0.8)
+    .attr("y", 210)
+    .style("font-size", "1rem")
+    .style("font-weight", "bold");
 
-  //   // Labels for search legend
-  //   svg.selectAll(".legend-search")
-  //     .data(["Tinder", "Bumble", "Okcupid"])
-  //     .join("text")
-  //     .attr("class", "legend-search")
-  //     .attr("x", width - margin.right / 2 - 10)
-  //     .attr("y", (_, i) => 235 + i * 20)
-  //     .text(d => d)
-  //     .style("font-size", "15px")
-  //     .attr("alignment-baseline","middle")
+  // Color boxes for search Legend
+
+  svg
+    .selectAll(".legend-box")
+    .data(topFive)
+    .join("rect")
+    .attr("class", "legend-box")
+    .attr("x", width - margin.right * 0.7 - 10)
+    .attr("y", (_, i) => 230 + i * 20)
+    .attr("width", 10)
+    .attr("height", 10)
+    .style("fill", d3.scaleOrdinal(d3.schemeAccent))
+    .attr("stroke", "black");
+
+  // Labels for search legend
+
+  svg
+    .selectAll("legend-country")
+    .data(topFive)
+    .join("text")
+    .attr("class", "legend-country")
+    .attr("x", width - margin.right * 0.6 - 10)
+    .attr("y", (_, i) => 237 + i * 20)
+    .text((d) => d.country)
+    .style("font-size", "15px")
+    .attr("alignment-baseline", "middle");
 });
